@@ -2,3 +2,11 @@
 ./leetcode_practice.iml
 !/.idea/
 !/leetcode_practice.iml
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
