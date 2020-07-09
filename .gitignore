@@ -1,10 +1,2 @@
-.idea
-将删除 .idea/.gitignore
-将删除 .idea/description.html
-将删除 .idea/encodings.xml
-将删除 .idea/inspectionProfiles/
-将删除 .idea/misc.xml
-将删除 .idea/modules.xml
-将删除 .idea/project-template.xml
-将删除 leetcode_practice.iml
-将删除 src/
+./.idea
+./leetcode_practice.iml
