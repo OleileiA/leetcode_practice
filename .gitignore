@@ -1,2 +1,4 @@
 ./.idea
 ./leetcode_practice.iml
+!/.idea/
+!/leetcode_practice.iml
