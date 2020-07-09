@@ -29,7 +29,9 @@ TopVotedCandidate.q(int t) 被调用时总是满足 t >= times[0]
 *
 * */
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -47,52 +49,57 @@ public class OnlineElection_m {
 *
 *  */
 
-    // 存储时间和对应当选人的map
-    private Map<Integer, Integer> map;
-    private int[] times;
+    class Vote {
+        int person, time;
+        Vote(int p, int t) {
+            person = p;
+            time = t;
+        }
+    }
+
+
+    // 将leader发生变化及对应的时间存入list
+    public List<Vote> A;
 
     public void topVotedCandidate(int[] persons, int[] times) {
-        this.times = times;
-        map = new HashMap<>();
+        A = new ArrayList();
+        Map<Integer, Integer> count = new HashMap();
+        int leader = -1;  // current leader
+        int m = 0;  // current number of votes for leader
 
-        // 声明参选人和对应票数的map
-        Map<Integer, Integer> numMap = new HashMap<>();
-        for (int i = 0; i < times.length; i++) {
-            if (numMap.containsKey(persons[i])) {
-                int num = numMap.get(persons[i]);
-                numMap.put(persons[i], ++num);
-            } else {
-                numMap.put(persons[i], 1);
-            }
-            AtomicInteger max = new AtomicInteger();
-            AtomicInteger person = new AtomicInteger();
-            numMap.forEach((key, value) -> {
-                if (value > max.get()) {
-                    max.set(value);
-                    person.set(key);
+        for (int i = 0; i < persons.length; ++i) {
+            int p = persons[i], t = times[i];
+            int c = count.getOrDefault(p, 0) + 1;
+            count.put(p, c);
+
+            if (c >= m) {
+                if (p != leader) {  // lead change
+                    leader = p;
+                    A.add(new Vote(leader, t));
                 }
-            });
-            map.put(times[i], person.get());
+
+                if (c > m) m = c;
+            }
         }
     }
 
     // 利用二分查找
     public int q(int t) {
-        int n = times.length;
-        int low = 0;
-        int high = n - 1;
+        int n = A.size();
+        int lo = 0;
+        int hi = n - 1;
 
-        int res  = 0;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (times[mid] <= t) {
-                if (mid == n - 1 || times[mid + 1] > t) res = mid;
-                low = mid + 1;
-            } else if (times[mid] > t) {
-                high = mid - 1;
+        int res = 0;
+        while (lo <= hi) {
+            int mi = lo + (hi - lo) / 2;
+            if (A.get(mi).time <= t) {
+                if ((mi == (n - 1)) || A.get(mi + 1).time > t) res = mi;
+                lo = mi + 1;
+            } else {
+                hi = mi - 1;
             }
         }
-        return map.get(times[res]);
+        return A.get(res).person;
     }
 
     public static void main(String[] args) {
