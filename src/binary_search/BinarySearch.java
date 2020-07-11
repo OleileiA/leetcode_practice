@@ -57,7 +57,6 @@ public class BinarySearch {
 
     // [1, 2, 4, 5]
     // target = 3
-
     // 变体3，查找第一个小于等于target的值的index
     public static int bs4(int[] a, int target) {
         int low = 0;
@@ -88,7 +87,6 @@ public class BinarySearch {
         }
         return -1;
     }
-
 
     public static void main(String[] args) {
         int[] a = { 1, 2, 3, 3, 4, 4, 4, 4, 5 };
