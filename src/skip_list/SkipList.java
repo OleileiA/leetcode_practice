@@ -44,7 +44,6 @@ public class SkipList {
             update[i] = head;
         }
 
-
         // 链表利用forwards不停的向前遍历，找到插入value的合适位置
         Node p = head;
         for (int i = level - 1; i >= 0; --i) {
@@ -53,13 +52,11 @@ public class SkipList {
             }
             update[i] = p;// use update save node in search path
         }
-
         // 替换update数组，完成插入
         for (int i = 0; i < level; ++i) {
             newNode.forwards[i] = update[i].forwards[i];
             update[i].forwards[i] = newNode;
         }
-
         // update node hight
         if (levelCount < level) levelCount = level;
     }
